@@ -1,4 +1,4 @@
-A simple Tetris clone written in Java by DataWraith with some add-ons.
+A simple Tetris clone written in Java Swing by DataWraith with some add-ons.
 
 This add-ons are the following:
 
