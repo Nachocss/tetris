@@ -1,21 +1,11 @@
 /*@Documentation
-* Los métodos nuevos o modificados marcados como 'aqui'
-* Controles: 
+* Controls: 
 *   R - Restart
-*   C/V - Caída libre
-*   Espacio - Caída rápida
-*   Flechas - Mover y rotar
+*   C/V - Full dropdown
+*   SPACE - Fast dropdown
+*   ARROWS - Move and rotate
 */
 
-/* Cambios:
-* Aumento gradual de velocidad segun la puntuación
-* Correción de la rotación de las fichas 'L' y 'J'
-* Botón de Restart
-* Mensaje de GAME OVER (como .png)
-* Mejoras en el sistema de caída de piezas (dropdowns)
-*con caída directa y caída rápida.
-* https://javaconceptoftheday.com/how-to-sort-a-text-file-in-java/ sort highscore
-*/
 package tetris;
 
 import java.awt.Color;
@@ -47,17 +37,17 @@ public class Tetris extends JPanel {
 			// J-Piece
 			{
 				{ new Point(1, 0), new Point(1, 1), new Point(1, 2), new Point(2, 2) },
-                                        { new Point(0, 1), new Point(1, 1), new Point(2, 1), new Point(2, 0) },			
+                                { new Point(0, 1), new Point(1, 1), new Point(2, 1), new Point(2, 0) },			
 				{ new Point(1, 0), new Point(1, 1), new Point(1, 2), new Point(0, 0) },
-                                        { new Point(0, 1), new Point(1, 1), new Point(2, 1), new Point(0, 2) }
+                                { new Point(0, 1), new Point(1, 1), new Point(2, 1), new Point(0, 2) }
 
                         },
 			// L-Piece
 			{
 				{ new Point(1, 0), new Point(1, 1), new Point(1, 2), new Point(0, 2) },
-                            		{ new Point(0, 1), new Point(1, 1), new Point(2, 1), new Point(2, 2) },
+                            	{ new Point(0, 1), new Point(1, 1), new Point(2, 1), new Point(2, 2) },
 				{ new Point(1, 0), new Point(1, 1), new Point(1, 2), new Point(2, 0) },
-                                        { new Point(0, 1), new Point(1, 1), new Point(2, 1), new Point(0, 0) }
+                                { new Point(0, 1), new Point(1, 1), new Point(2, 1), new Point(0, 0) }
 			},                        
                         
 			// O-Piece
@@ -119,7 +109,7 @@ public class Tetris extends JPanel {
 					well[i][j] = Color.BLACK;
 				}
 			}
-		}	//aqui, NO VA   
+		}
 		if( !collidesAt(5,2,1))newPiece(); 
 
 	}
@@ -178,7 +168,7 @@ public class Tetris extends JPanel {
 		}	
 		repaint();
 	}
-	//aqui Los 2 siguientes metodos son propios
+	// Drops the piece faster
 	public void fastDropDown() {
 		if (!collidesAt(pieceOrigin.x, pieceOrigin.y + 3, rotation)) {
 			pieceOrigin.y += 3;
@@ -195,6 +185,7 @@ public class Tetris extends JPanel {
 		repaint();
 	}
        
+	//Drops the piece to the bottom
         public void fullDropDown() throws IndexOutOfBoundsException{
             
             int n = 0;
@@ -216,9 +207,6 @@ public class Tetris extends JPanel {
                 repaint();            
             
         }
-        
-        
-        
         
 	// Make the dropping piece part of the well, so it is available for
 	// collision detection.
@@ -303,8 +291,7 @@ public class Tetris extends JPanel {
 		
 		// Draw the currently falling piece
 		drawPiece(g);
-                
-                //aqui
+		
                     Image imagenInterna = new ImageIcon(
                     getClass().getResource("gameover.png")
                     ).getImage();                
@@ -312,16 +299,10 @@ public class Tetris extends JPanel {
                 
                 if( collidesAt(5,2,1)){
                     g.drawString("Press R to restart", 30,20);
-                    //System.exit(1);
-                    
-
                     
                     g.drawImage(imagenInterna, 84, 50, Color.black, this);
                     
                 }
-                
-                
-                
 	}
 
 	public static void main(String[] args) {
@@ -358,16 +339,13 @@ public class Tetris extends JPanel {
 					game.score += 1;
 					break;
                                         
-                                //aqui restart
+                                //restart
                                 case KeyEvent.VK_R:
                                     	game.init();
                                         f.add(game);
                                         break;
-                                //aqui fulldropdown
-                                case KeyEvent.VK_C:
-                                        game.fullDropDown();
-                                        break;
-                                // correctDropdown        
+                                //fulldropdown
+                                case KeyEvent.VK_C:    
                                 case KeyEvent.VK_V:
                                         game.fullDropDown();
                                         break;
@@ -429,51 +407,3 @@ public class Tetris extends JPanel {
 		}.start();
 	}
 }
-
-
-
-
-// TIENE BUGS
-    /*    public void fullDropDown() throws IndexOutOfBoundsException{
-
-                for( int i = well[1].length-1; i > 0; i-- ){
-                    
-                    try{
-                    if (!collidesAt(pieceOrigin.x, pieceOrigin.y+i, rotation)){
-                        pieceOrigin.y += i;
-                    }
-                    }
-                    
-                    catch(IndexOutOfBoundsException ex){
-                        i -= 5;
-                    }
-                }
-                
-                if(collidesAt(pieceOrigin.x, pieceOrigin.y + 1, rotation)){
-                    fixToWell();
-                }
-                repaint();
-        }*/
-
-                          
-			/*	STANDART DE VELOCIDAD
-                                while (true){
-					try {
-						Thread.sleep(500);
-						game.dropDown();
-					} catch ( InterruptedException e ) {}
-				}*/
-                        /*      AUMENTO DE VELOCIDAD POR TIEMPO        
-                                for( int i = 0; i < 10; i++){
-                                					try {
-						Thread.sleep(500);
-						game.dropDown();
-					} catch ( InterruptedException e ) {}    
-                                }
-                                
-                                for( int i = 0; i < 10; i++){
-                                					try {
-						Thread.sleep(200);
-						game.dropDown();
-					} catch ( InterruptedException e ) {}    
-                                }  */ 
